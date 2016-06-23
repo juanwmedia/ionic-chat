@@ -57,7 +57,7 @@
         </div>
     </ion-header-bar>
 
-    <ion-content>
+    <ion-content delegate-handle="mensajes">
         <ion-list show-delete="shouldShowDelete"
                   show-reorder="shouldShowReorder"
                   can-swipe="listCanSwipe">
@@ -83,6 +83,7 @@
     <ion-footer-bar ng-show="autenticado" keyboard-attach class="bar-dark item-input-inset">
         <label class="item-input-wrapper">
             <input type="text"
+                   required
                    placeholder="Escribir mensaje"
                    ng-model="nuevoMensaje"/>
         </label>

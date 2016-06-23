@@ -1,4 +1,4 @@
-function ChatController($scope, $firebaseArray, $firebaseAuth) {
+function ChatController($scope, $firebaseArray, $firebaseAuth, $ionicScrollDelegate) {
     $scope.shouldShowDelete = false;
     $scope.shouldShowReorder = false;
     $scope.listCanSwipe = true;
@@ -35,6 +35,10 @@ function ChatController($scope, $firebaseArray, $firebaseAuth) {
     // Real-time database
     var referencia = firebase.database().ref().child("mensajes");
     $scope.chats = $firebaseArray(referencia);
+
+    referencia.on('value', function(snapshot){
+        $ionicScrollDelegate.$getByHandle('mensajes').scrollBottom(true);
+    });
 
     $scope.enviarMensaje = function() {
         $scope.chats.$add({
