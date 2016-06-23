@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBe8P8pdR2zUSYd5RvJjk3WEJ0Cib9Jpgc",
+            authDomain: "chatid3-cebe9.firebaseapp.com",
+            databaseURL: "https://chatid3-cebe9.firebaseio.com",
+            storageBucket: "",
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+</head>
+<body ng-app="chatID3" ng-controller="ChatController">
+
+<ion-pane>
+    <ion-header-bar class="bar-royal">
+        <button class="button"
+                ng-show="autenticado"
+                ng-click="shouldShowDelete = !shouldShowDelete">
+            <i class="icon ion-ios-minus"></i>
+        </button>
+
+        <h1 class="title">Chat ID3</h1>
+
+        <div class="buttons">
+            <button class="button" ng-hide="autenticado" ng-click="conectar()">
+                <i>Conectar</i>
+            </button>
+            <button class="button" ng-show="autenticado" ng-click="desconectar()">
+                <i>Desconectar</i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-list show-delete="shouldShowDelete"
+                  show-reorder="shouldShowReorder"
+                  can-swipe="listCanSwipe">
+
+            <!-- item que se repite por cada mensaje-->
+            <ion-item class="item-avatar"
+                      ng-repeat="chat in chats">
+                <img ng-src="{{ chat.avatar || 'img/ionic.png'}}">
+                <h2>{{ chat.mensaje }}</h2>
+                <p>{{ chat.usuario || 'Anónim@' }}</p>
+
+                <ion-delete-button
+                        class="ion-minus-circled"
+                        ng-show="chat.uid === usuario.uid"
+                        ng-click="borrarMensaje(chat)">
+                </ion-delete-button>
+            </ion-item>
+            <!-- -->
+
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar ng-show="autenticado" keyboard-attach class="bar-dark item-input-inset">
+        <label class="item-input-wrapper">
+            <input type="text"
+                   placeholder="Escribir mensaje"
+                   ng-model="nuevoMensaje"/>
+        </label>
+
+        <button class="button button-clear"
+                ng-click="enviarMensaje()">
+            Enviar
+        </button>
+    </ion-footer-bar>
+</ion-pane>
+</body>
+</html>
